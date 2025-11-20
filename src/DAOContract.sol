@@ -32,6 +32,8 @@ contract DAOContract is Ownable {
     IERC20 public immutable GOVERNANCE_TOKEN;
     /** @dev Mapping of proposal IDs to Proposal structs. */
     mapping(uint => Proposal) public proposals;
+    /** @dev Mapping to track if an address has voted on a specific proposal. */
+    mapping(uint256 => mapping(address => bool)) public hasVoted;
     /** @dev Counter for proposal IDs. */
     uint public proposalCount = 0;
 
@@ -71,6 +73,7 @@ contract DAOContract is Ownable {
 
     function voteOnProposal(uint _id, uint8 _vote) public proposalExists(_id) {
         require(block.timestamp < proposals[_id].deadline, "Voting period has ended");
+        require(!hasVoted[_id][msg.sender], "Already voted on this proposal");
         uint voterBalance = GOVERNANCE_TOKEN.balanceOf(msg.sender);
         require(voterBalance > 0, "No governance tokens to vote with");
 
@@ -85,6 +88,7 @@ contract DAOContract is Ownable {
         } else {
             revert("Invalid vote option");
         }
+        hasVoted[_id][msg.sender] = true;
     }
 
     function executeProposal(uint _id) public onlyOwner proposalExists(_id) {
