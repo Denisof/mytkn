@@ -9,7 +9,7 @@ import {Vm} from "forge-std/Vm.sol";
 contract DLosScript is Script {
     function run() public  {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
-        uint256 pkRD = vm.envUint("PRIVATE_KEY_RD");
+        uint256 pkRD  = vm.envUint("PRIVATE_KEY_RD");
         vm.startBroadcast(privateKey);
         vm.recordLogs();
         address goveranceToken = 0xA3933e93AE9351053c0f2B753f0051835d266eb5;
