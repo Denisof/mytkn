@@ -21,7 +21,8 @@ const proposalController = {
       );
       const total = await Proposal.countDocuments({});
       res.json({
-        proposals,
+        success: true,
+        data: proposals,
         pagination: {
           total,
           page: parseInt(page),
