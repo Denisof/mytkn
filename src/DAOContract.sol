@@ -48,11 +48,11 @@ contract DAOContract is Ownable {
     }
 
     function _proposalExists(uint _id) internal view {
-        require(_id > 0 && _id <= proposalCount, ProposalNotFound("Proposal does not exist"));
+        if (!(_id > 0 && _id <= proposalCount)) revert ProposalNotFound("Proposal does not exist");
     }
 
     function createProposal(string memory _description,   address _target, bytes calldata _callData) public onlyOwner {
-        require(bytes(_description).length > 0, EmptyDescription("Description cannot be empty"));
+        if (bytes(_description).length == 0) revert EmptyDescription("Description cannot be empty");
         require(_target != address(0), "Invalid target address");
         require(_callData.length > 0, "Call data cannot be empty");
 
