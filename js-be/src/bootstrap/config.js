@@ -12,7 +12,9 @@ const config = {
   blockchain: {
     rpcUrl: process.env.RPC_URL || '',
     privateKey: process.env.PRIVATE_KEY || '',
-    contractAddress: process.env.CONTRACT_ADDRESS || ''
+    contractAddress: process.env.CONTRACT_ADDRESS || '',
+    startingBlock: parseInt(process.env.STARTING_BLOCK, 10) || 0,
+    eventPollingInterval: parseInt(process.env.EVENT_POLLING_INTERVAL, 10) || 15000
   }
 };
 

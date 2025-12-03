@@ -15,7 +15,7 @@ contract DAOContract is Ownable {
 
     event ProposalCreated(uint id, string description, uint256 createdAt);
     event ProposalExecuted(uint id, string description);
-    event Voted(uint id, address voter, uint8 voteOption);
+    event Voted(uint id, address voter, uint8 voteOption, uint voterBalance);
     /** @dev Struct to represent a proposal. */
     struct Proposal {
         uint id;
@@ -90,7 +90,7 @@ contract DAOContract is Ownable {
             revert("Invalid vote option");
         }
         hasVoted[_id][msg.sender] = true;
-        emit Voted(_id, msg.sender, _vote);
+        emit Voted(_id, msg.sender, _vote, voterBalance);
     }
 
     function executeProposal(uint _id) public onlyOwner proposalExists(_id) {
