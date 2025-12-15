@@ -27,6 +27,7 @@ contract DAOContract is Ownable {
         uint256 deadline;
         address target;
         bytes _callData;
+        address owner;
     }
 
     /** @dev The governance token used for voting. */
@@ -66,7 +67,8 @@ contract DAOContract is Ownable {
             positiveVotes: 0,
             negativeVotes: 0,
             neutralVotes: 0,
-            _callData: _callData
+            _callData: _callData,
+            owner: msg.sender
         });
 
         emit ProposalCreated(proposalCount, _description, block.timestamp);
@@ -119,5 +121,9 @@ contract DAOContract is Ownable {
 
     function getProposal(uint _id) public view proposalExists(_id) returns (Proposal memory) {
         return proposals[_id];
+    }
+
+    function canCreateProposal() public view returns (bool) {
+        return _msgSender() == owner();
     }
 }
