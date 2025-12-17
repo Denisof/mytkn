@@ -107,7 +107,7 @@ contract DAOContract is Ownable {
         emit ProposalExecuted(_id, proposal.description);
     }
 
-    function proposalCanBeExecuted(uint _id) public proposalExists(_id) view {
+    function proposalCanBeExecuted(uint _id) public proposalExists(_id) view returns (bool ) {
         Proposal storage proposal = proposals[_id];
         require(!proposal.executed, "Proposal already executed");
         require(block.timestamp >= proposal.deadline, "Voting period is not ended");
@@ -117,6 +117,8 @@ contract DAOContract is Ownable {
 
         require(totalVotes >= quorum, "Quorum not reached");
         require(proposal.positiveVotes > proposal.negativeVotes, "Proposal did not pass");
+
+        return true;
     }
 
     function getProposal(uint _id) public view proposalExists(_id) returns (Proposal memory) {
